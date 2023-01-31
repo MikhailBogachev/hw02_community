@@ -16,8 +16,8 @@ class PostAdmin(admin.ModelAdmin):
 class GroupAdmin(admin.ModelAdmin):
     """Класс кастомизации модели Post"""
 
-    list_display: tuple[str] = ('pk', 'title', 'description',)
-    search_fields: tuple[str] = ('title',)
+    list_display = ('pk', 'title', 'description',)
+    search_fields = ('title',)
 
 
 admin.site.register(Post, PostAdmin)
