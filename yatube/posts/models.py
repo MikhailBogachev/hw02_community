@@ -31,3 +31,6 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         related_name='groups'
     )
+
+    def __str__(self) -> str:
+        return self.text
