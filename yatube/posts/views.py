@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
 
 from .models import Post, Group
+
+
+User = get_user_model()
 
 
 NUM_POST_FOR_PAGE: int = 10
@@ -13,6 +17,7 @@ def index(request):
     paginator = Paginator(post_list, NUM_POST_FOR_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     context: dict = {
         'page_obj': page_obj,
     }
@@ -33,3 +38,34 @@ def group_posts(request, slug):
         'page_obj': page_obj,
     }
     return render(request, template, context)
+
+
+def profile(request, username):
+    # Здесь код запроса к модели и создание словаря контекста
+    template = 'posts/profile.html'
+    user = get_object_or_404(User, username=username)
+    post_list = Post.objects.filter(author=user).order_by('-pub_date')
+    post_count = post_list.count()
+    paginator = Paginator(post_list, NUM_POST_FOR_PAGE)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'user': user,
+        'page_obj': page_obj,
+        'post_count': post_count,
+    }
+    return render(request, template, context)
+
+
+def post_detail(request, post_id):
+    # Здесь код запроса к модели и создание словаря контекста
+    template = 'posts/post_detail.html'
+    post = Post.objects.get(pk=post_id)
+    author = post.author
+    post_count = Post.objects.filter(author=author).count()
+    context = {
+        'post': post,
+        'post_count': post_count
+    }
+    return render(request, template, context) 

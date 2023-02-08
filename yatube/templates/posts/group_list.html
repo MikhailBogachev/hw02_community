@@ -27,3 +27,4 @@
   {% if not forloop.last %}<hr>{% endif %}
   {% endfor %} 
 {% endblock %}
+{% block paginator %}{% include 'posts/includes/paginator.html' %}{% endblock %}
