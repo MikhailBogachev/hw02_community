@@ -41,7 +41,6 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    # Здесь код запроса к модели и создание словаря контекста
     template = 'posts/profile.html'
     user = get_object_or_404(User, username=username)
     post_list = Post.objects.filter(author=user).order_by('-pub_date')
@@ -59,7 +58,6 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-    # Здесь код запроса к модели и создание словаря контекста
     template = 'posts/post_detail.html'
     post = Post.objects.get(pk=post_id)
     author = post.author
